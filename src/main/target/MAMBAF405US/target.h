@@ -1,73 +1,150 @@
+/*
+ * This file is part of Cleanflight.
+ *
+ * Cleanflight is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
 #pragma once
 
-#define TARGET_BOARD_IDENTIFIER "MB45"
+#ifdef MAMBAF405
+#define TARGET_BOARD_IDENTIFIER "MBF4"
+#define USBD_PRODUCT_STRING     "MAMBAF405"
+#else
+#define TARGET_BOARD_IDENTIFIER "FYF4"
+#define USBD_PRODUCT_STRING     "FuryF4"
+#endif
 
-#define USBD_PRODUCT_STRING "MambaF405US"
+#define LED0                    PB5
+#define LED1                    PB4
 
-#define USE_HAL_DRIVER
-#define USE_REBOOT_TO_BOOTLOADER
+#define BEEPER                  PA8
+#define BEEPER_INVERTED
 
-#define USE_XTAL_CLK
-#define MAIN_PLL_SRC PLL_SRC_HSE
-
-#define USE_DMP
-#define USE_IMU_MPU6000
-#define IMU_MPU6000_ALIGN       CW180_DEG
-
-#define USE_IMU_ICM42605
-#define IMU_ICM42605_ALIGN      CW180_DEG
-
-#define USE_BARO
-#define USE_BARO_SPL06
-#define USE_BARO_BMP280
-#define USE_BARO_DPS310
-
-#define USE_MAG
-#define USE_MAG_HMC5883
-#define USE_MAG_QMC5883
-#define USE_MAG_IST8310
-#define USE_MAG_MAG3110
-#define USE_MAG_LIS3MDL
-
-#define USE_FLASH
-#define USE_FLASH_M25P16
-#define FLASH_CS_PIN            PB3
-#define FLASH_SPI_BUS           BUS_SPI3
-
-#define USE_MAX7456
-
-#define USE_VCP
-#define USE_UART1
-#define USE_UART2
-#define USE_UART3
-#define USE_UART4
-#define USE_UART5
-#define USE_UART6
-
-#define SERIAL_PORT_COUNT       7
-
+// *************** Gyro & ACC **********************
 #define USE_SPI
 #define USE_SPI_DEVICE_1
-#define USE_SPI_DEVICE_2
+
+#define USE_IMU_MPU6500
+#define IMU_MPU6500_ALIGN       CW180_DEG
+#define MPU6500_CS_PIN          PA4
+#define MPU6500_SPI_BUS         BUS_SPI1
+
+#define USE_IMU_MPU6000
+#define IMU_MPU6000_ALIGN       CW180_DEG
+#define MPU6000_CS_PIN          PA4
+#define MPU6000_SPI_BUS         BUS_SPI1
+
+// ICM42605/ICM42688P
+#define USE_IMU_ICM42605
+#define IMU_ICM42605_ALIGN      CW180_DEG
+#define ICM42605_SPI_BUS        BUS_SPI1
+#define ICM42605_CS_PIN         PA4
+
+#define ENABLE_BLACKBOX_LOGGING_ON_SPIFLASH_BY_DEFAULT
 #define USE_SPI_DEVICE_3
+#define SPI3_SCK_PIN            PC10
+#define SPI3_MISO_PIN   	      PC11
+#define SPI3_MOSI_PIN   	      PC12
 
-#define DEBUG_MODULE_EMBEDDED
+// *************** M25P256 flash ********************
+#define USE_FLASHFS
+#define USE_FLASH_M25P16
+#define M25P16_SPI_BUS          BUS_SPI3
+#define M25P16_CS_PIN           PB3
 
-#define TIMER_COUNT             15
+// *************** OSD *****************************
+#define USE_SPI_DEVICE_2
+#define SPI2_SCK_PIN            PB13
+#define SPI2_MISO_PIN   	      PB14
+#define SPI2_MOSI_PIN   	      PB15
 
+#define USE_MAX7456
+#define MAX7456_SPI_BUS         BUS_SPI2
+#define MAX7456_CS_PIN          PB12
+
+// *************** UART *****************************
+#define USE_VCP
+#define VBUS_SENSING_PIN        PC5
+#define VBUS_SENSING_ENABLED
+
+#define USE_UART1
+#define UART1_RX_PIN            PA10
+#define UART1_TX_PIN            PA9
+
+#define USE_UART3
+#define UART3_RX_PIN            PB11
+#define UART3_TX_PIN            PB10
+
+#define USE_UART6
+#define UART6_RX_PIN            PC7
+#define UART6_TX_PIN            PC6
+
+// SOFTSERIAL REMOVED TO PREVENT CONFLICT WITH PC9 SERVO OUTPUT
+//#define USE_SOFTSERIAL1
+//#define SOFTSERIAL_1_RX_PIN      PA1
+//#define SOFTSERIAL_1_TX_PIN      PC9  // PPM
+
+#define SERIAL_PORT_COUNT       5
+
+#ifdef MAMBAF405
+#   define USE_UART_INVERTER
+#   define INVERTER_PIN_UART1_RX    PC0
+#endif
+
+
+#define DEFAULT_RX_TYPE         RX_TYPE_SERIAL
+#define SERIALRX_PROVIDER       SERIALRX_SBUS
+#define SERIALRX_UART           SERIAL_PORT_USART1
+
+#define USE_I2C
+#define USE_I2C_DEVICE_1
+#define I2C1_SCL                PB6
+#define I2C1_SDA                PB7
+#define DEFAULT_I2C_BUS         BUS_I2C1
+
+#define USE_BARO
+#define BARO_I2C_BUS                DEFAULT_I2C_BUS
+#define USE_BARO_ALL
+
+#define USE_MAG
+#define MAG_I2C_BUS                 DEFAULT_I2C_BUS
+#define USE_MAG_ALL
+
+#define TEMPERATURE_I2C_BUS         DEFAULT_I2C_BUS
+
+#define USE_RANGEFINDER
+#define USE_RANGEFINDER_MSP
+#define RANGEFINDER_I2C_BUS     DEFAULT_I2C_BUS
+
+#define PITOT_I2C_BUS               DEFAULT_I2C_BUS
+
+// *************** ADC *****************************
 #define USE_ADC
-#define VBAT_ADC_CHANNEL        ADC_CHN_1
-#define CURRENT_METER_ADC_CHANNEL ADC_CHN_2
-#define RSSI_ADC_CHANNEL        ADC_CHN_3
+#define ADC_INSTANCE                ADC1
+#define ADC1_DMA_STREAM             DMA2_Stream0
+#define ADC_CHANNEL_1_PIN           PC1
+
+#ifdef MAMBAF405
+#   define ADC_CHANNEL_2_PIN       PC3
+#   define ADC_CHANNEL_3_PIN       PC2
+#else
+#   define ADC_CHANNEL_2_PIN       PC2
+#   define ADC_CHANNEL_3_PIN       PC3
+#endif
+
+#define VBAT_ADC_CHANNEL            ADC_CHN_1
+#define CURRENT_METER_ADC_CHANNEL   ADC_CHN_2
+#define RSSI_ADC_CHANNEL            ADC_CHN_3
 
 #define DEFAULT_FEATURES        (FEATURE_OSD | FEATURE_CURRENT_METER | FEATURE_VBAT | FEATURE_TELEMETRY )
-#define CURRENT_METER_SCALE     179
+#define CURRENT_METER_SCALE   179
 
-#define USE_LED_STRIP
-#define WS2111_PIN              PA0
-
-//#define USE_SPEKTRUM_BIND
-//#define BIND_PIN                PA3 // RX2
+// LED STRIP REMOVED TO PREVENT CONFLICT WITH PA0 SERVO OUTPUT
+//#define USE_LED_STRIP
+//#define WS2811_PIN                  PA0
 
 #define USE_SERIAL_4WAY_BLHELI_INTERFACE
 
@@ -79,4 +156,4 @@
 #define USE_DSHOT
 #define USE_ESC_SENSOR
 
-#define MAX_PWM_OUTPUT_PORTS    6
+#define MAX_PWM_OUTPUT_PORTS       6
