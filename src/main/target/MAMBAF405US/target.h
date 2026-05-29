@@ -78,22 +78,20 @@
 #define UART3_RX_PIN            PB11
 #define UART3_TX_PIN            PB10
 
+#define USE_UART4
+#define UART4_RX_PIN            PA1
+#define UART4_TX_PIN            PA0
+
 #define USE_UART6
 #define UART6_RX_PIN            PC7
 #define UART6_TX_PIN            PC6
 
-// SOFTSERIAL REMOVED TO PREVENT CONFLICT WITH PC9 SERVO OUTPUT
-//#define USE_SOFTSERIAL1
-//#define SOFTSERIAL_1_RX_PIN      PA1
-//#define SOFTSERIAL_1_TX_PIN      PC9  // PPM
-
-#define SERIAL_PORT_COUNT       5
+#define SERIAL_PORT_COUNT       7
 
 #ifdef MAMBAF405
 #   define USE_UART_INVERTER
 #   define INVERTER_PIN_UART1_RX    PC0
 #endif
-
 
 #define DEFAULT_RX_TYPE         RX_TYPE_SERIAL
 #define SERIALRX_PROVIDER       SERIALRX_SBUS
@@ -142,9 +140,8 @@
 #define DEFAULT_FEATURES        (FEATURE_OSD | FEATURE_CURRENT_METER | FEATURE_VBAT | FEATURE_TELEMETRY )
 #define CURRENT_METER_SCALE   179
 
-// LED STRIP REMOVED TO PREVENT CONFLICT WITH PA0 SERVO OUTPUT
-//#define USE_LED_STRIP
-//#define WS2811_PIN                  PA0
+#define USE_PINIO
+#define USE_PINIOBOX
 
 #define USE_SERIAL_4WAY_BLHELI_INTERFACE
 
